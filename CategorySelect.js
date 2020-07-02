@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+
 import {
   View,
   StyleSheet,
@@ -8,7 +10,7 @@ import {
   Picker,
 } from "react-native";
 
-export default function CategorySelect() {
+export default function CategorySelect({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState("Computers");
   const [selectedSubCategory, setSelectedSubCategory] = useState("Monitor");
 
@@ -41,7 +43,20 @@ export default function CategorySelect() {
           <Picker.Item label="CPU" value="cpu" />
         </Picker>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => alert("Pressed!")}>
+      <Text style={styles.pickerTitle}>Price in $USD:</Text>
+      <View style={styles.slider}>
+        <MultiSlider
+          sliderLength={320}
+          values={[500]}
+          min={120}
+          max={1640}
+          enableLabel={true}
+        ></MultiSlider>
+      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Result")}
+      >
         <Text style={styles.buttonText}>Find it!</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -89,5 +104,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 17,
     marginBottom: "2%",
+  },
+  slider: {
+    alignItems: "center",
+    width: "90%",
+    marginTop: "10%",
   },
 });
