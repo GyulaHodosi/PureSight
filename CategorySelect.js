@@ -21,41 +21,56 @@ export default function CategorySelect({ navigation }) {
       <View style={styles.picker}>
         <Picker
           selectedValue={selectedCategory}
-          onValueChange={(itemValue, itemIndex) =>
-            setSelectedCategory(itemValue)
-          }
+          onValueChange={(itemValue) => setSelectedCategory(itemValue)}
         >
-          <Picker.Item label="Computers" value="computers" />
-          <Picker.Item label="Electronics" value="electronics" />
-          <Picker.Item label="Televisions" value="televisions" />
+          {Object.entries(categories).map(([key]) => {
+            return <Picker.Item key={key} label={key} value={key} />;
+          })}
         </Picker>
       </View>
       <Text style={styles.pickerTitle}>Sub Category:</Text>
       <View style={styles.picker}>
         <Picker
           selectedValue={selectedSubCategory}
-          onValueChange={(itemValue, itemIndex) =>
-            setSelectedSubCategory(itemValue)
-          }
+          onValueChange={(itemValue) => setSelectedSubCategory(itemValue)}
         >
-          <Picker.Item label="Monitor" value="monitor" />
-          <Picker.Item label="Graphics Card" value="graphicsCard" />
-          <Picker.Item label="CPU" value="cpu" />
+          {categories[selectedCategory].map((x) => {
+            return <Picker.Item key={x} label={x} value={x} />;
+          })}
         </Picker>
       </View>
+      <Text style={styles.pickerTitle}>Keyword:</Text>
+      <TextInput
+        style={styles.picker}
+        onChangeText={(keyword) => setKeyWord(keyword)}
+      ></TextInput>
       <Text style={styles.pickerTitle}>Price in $USD:</Text>
       <View style={styles.slider}>
         <MultiSlider
+          selectedStyle={{ backgroundColor: "#0BCFCE" }}
+          unselectedStyle={{
+            backgroundColor: "white",
+          }}
+          touchDimensions={{
+            height: 0,
+            width: 0,
+            borderRadius: 15,
+            slipDisplacement: 200,
+          }}
+          values={[multiSliderValue[0], multiSliderValue[1]]}
           sliderLength={320}
-          values={[500]}
-          min={120}
-          max={1640}
+          onValuesChange={multiSliderValuesChange}
+          min={0}
+          max={3000}
+          step={10}
+          allowOverlap
+          snapped
           enableLabel={true}
         ></MultiSlider>
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Result")}
+        onPress={() => navigateToResult()}
       >
         <Text style={styles.buttonText}>Find it!</Text>
       </TouchableOpacity>
