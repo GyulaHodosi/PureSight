@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-
+import CustomSliderMarkerLeft from "@ptomasroos/react-native-multi-slider";
+import CustomSliderMarkerRight from "@ptomasroos/react-native-multi-slider";
+import { setProductIndex } from "./globals";
+import { categories } from "./categories";
+import { products } from "./productsdb";
 import {
   View,
   StyleSheet,
@@ -9,10 +13,50 @@ import {
   TouchableOpacity,
   Picker,
 } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function CategorySelect({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState("Computers");
   const [selectedSubCategory, setSelectedSubCategory] = useState("Monitor");
+  const [keyWord, setKeyWord] = useState("");
+  const [multiSliderValue, setMultiSliderValue] = useState([250, 2500]);
+  const multiSliderValuesChange = (values) => setMultiSliderValue(values);
+
+  function navigateToResult() {
+    var results = selectProducts();
+    if (results.length == 0) {
+      alert("Sorry, we couldn't find a product like that!");
+    } else {
+      setProductIndex(Math.ceil((results.length - 1) / 2));
+      navigation.navigate("Result", results);
+    }
+  }
+
+  function selectProducts() {
+    var results;
+    results = products.filter((p) => {
+      return (
+        p.category === selectedSubCategory &&
+        p.price > multiSliderValue[0] &&
+        p.price < multiSliderValue[1]
+      );
+    });
+
+    if (keyWord != "") {
+      results = filterByKeyWord(results, keyWord);
+    }
+
+    results = results.sort((a, b) => (a.price > b.price ? 1 : -1));
+    return results;
+  }
+
+  function filterByKeyWord(unFilteredList, keyWord) {
+    var filteredList;
+    filteredList = unFilteredList.filter((i) => {
+      return i.description.includes(keyWord);
+    });
+    return filteredList;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -109,6 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   picker: {
+    height: "7%",
     borderRadius: 10,
     width: "90%",
     color: "black",
