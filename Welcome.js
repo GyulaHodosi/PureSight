@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   SafeAreaView,
+  StatusBar,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -12,6 +13,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 export default function Welcome({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        translucent={true}
+        backgroundColor="#383B40"
+        barStyle="light-content"
+      />
       <Text style={styles.textTitle}>Welcome to</Text>
       <Image style={styles.logo} source={require("./assets/logo.png")} />
       <Text style={styles.logoText}>PureSight</Text>
