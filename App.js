@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  Image,
-  SafeAreaView,
-} from "react-native";
-import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import CategorySelect from "./CategorySelect";
 import Welcome from "./Welcome";
